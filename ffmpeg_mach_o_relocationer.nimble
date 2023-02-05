@@ -5,8 +5,8 @@ author        = "Mutsuha Asada"
 description   = "A new awesome nimble package"
 license       = "Apache-2.0"
 srcDir        = "src"
-bin           = @["ffmpeg_mach_o_relocationer"]
-
+binDir        = "bin"
+namedBin      = { "ffmpeg_mach_o_relocationer": "ffmpeg-mach-o-relocationer" }.toTable
 
 # Dependencies
 

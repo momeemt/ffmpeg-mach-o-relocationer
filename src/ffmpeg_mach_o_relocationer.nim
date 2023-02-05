@@ -1,5 +1,18 @@
-# This is just an example to get you started. A typical binary package
-# uses this file as the main entry point of the application.
+import std/os
+import std/strutils
+import std/strformat
 
-when isMainModule:
-  echo("Hello, World!")
+const
+  UserLocalLib = "/usr/local/lib"
+  AllVersionsFFmpegInHomebrew = "/opt/homebrew/Cellar/ffmpeg"
+
+for dir in walkDir(AllVersionsFFmpegInHomebrew):
+  for path in walkFiles(dir.path / "lib" / "*.dylib"):
+    let name = path.split('/')[^1]
+    if name.split('.')[1] != "dylib": continue
+    discard tryRemoveFile(UserLocalLib / name)
+    echo &"🗑 Delete: {UserLocalLib / name}"
+    createSymlink(path, UserLocalLib / name)
+    echo &"👍 Create Symbolic Link: {path} to {UserLocalLib / name}"
+
+echo "🎉 Complete to relocate FFmpeg mach-o files!"
